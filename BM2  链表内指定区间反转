@@ -1,0 +1,45 @@
+public class BM2 {
+
+    public class ListNode {
+        int val;
+        ListNode next = null;
+
+        public ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+
+    class Solution {
+        //head并不是空节点而是第一个节点
+        //解题思路为找出需要反转的中间链表 然后用头插法
+        public ListNode reverseBetween(ListNode head, int m, int n) {
+             if(m==n) return head;
+             ListNode returnnode=new ListNode(-1);//创建头节点前面一个节点
+             returnnode.next=head;
+             head=returnnode;
+             int i=0;
+             ListNode pre=null,newhead=null;//创建m前面一个节点，插入链表的头结点
+             while(head!=null){//找到需要反转的中间链表
+                 if(i==m-1){
+                     pre=head;
+                     newhead=head.next;
+                 }if(i==n){
+                     pre.next=head.next;
+                     head.next=null;
+                 }
+                 i++;
+                 head=head.next;
+             }
+             ListNode nextnode=newhead.next;//保存newhead节点的下一个节点
+             while(newhead!=null){//头插法插入
+                newhead.next=pre.next;
+                pre.next=newhead;
+                newhead=nextnode;
+                if(nextnode!=null){//细节注意nextnode节点有可能为空就无法赋值
+                    nextnode=newhead.next;}
+            }
+             return returnnode.next;//细节要返回下一个节点
+        }
+    }
+}
